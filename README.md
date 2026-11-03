@@ -16,6 +16,12 @@ open dist/ScreenTo11.app
 
 The app starts with boost **off**, including after login or a relaunch. Only the slider level is saved. To enable Launch at Login reliably, move the built app to `/Applications` before registering it; macOS may require approval in System Settings → Login Items.
 
+## CI builds
+
+GitHub Actions tests and builds the app for Apple Silicon (`arm64`) and Intel (`x86_64`) on every push to `main`, pull request, and manual run. Each successful run uploads a `ScreenTo11-arm64` or `ScreenTo11-x86_64` artifact containing a zipped `.app`. Download the artifact for your Mac's architecture and unzip it before opening the app.
+
+These builds are ad-hoc signed, not notarized. CI checks compilation, tests, binary architecture, and code-signing integrity; the physical EDR brightness check still requires a compatible display.
+
 ## Physical display check
 
 On an EDR-capable MacBook Pro, set macOS brightness to 100%, open the menu bar icon, and turn on boost. Compare the same ordinary desktop content with boost off and on, then move the slider. Confirm that mouse and keyboard input pass through, test another Space and a full-screen app, and turn boost off or quit. Screenshots do not establish increased emitted brightness, so this check must be made by looking at the panel.

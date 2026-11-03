@@ -1,0 +1,44 @@
+name: Build macOS app
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    name: macOS 15 (${{ matrix.arch }})
+    runs-on: ${{ matrix.runner }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - runner: macos-15
+            arch: arm64
+          - runner: macos-15-intel
+            arch: x86_64
+    steps:
+      - uses: actions/checkout@v6
+      - name: Check runner architecture
+        run: test "$(uname -m)" = "${{ matrix.arch }}"
+      - name: Test
+        run: make test
+      - name: Build app
+        run: make app
+      - name: Verify and package app
+        run: |
+          test "$(lipo -archs dist/ScreenTo11.app/Contents/MacOS/ScreenTo11)" = "${{ matrix.arch }}"
+          codesign --verify --deep --strict dist/ScreenTo11.app
+          ditto -c -k --sequesterRsrc --keepParent dist/ScreenTo11.app "ScreenTo11-${{ matrix.arch }}.zip"
+      - name: Upload app
+        uses: actions/upload-artifact@v7
+        with:
+          name: ScreenTo11-${{ matrix.arch }}
+          path: ScreenTo11-${{ matrix.arch }}.zip
+          if-no-files-found: error
+          retention-days: 14
+          compression-level: 0
