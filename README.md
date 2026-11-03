@@ -1,6 +1,8 @@
 # Screen to 11
 
-Screen to 11 is a menu bar app that requests EDR headroom on the built-in display and applies a click-through multiply overlay to brighten ordinary content. It uses public AppKit and Metal APIs. The actual gain is capped continuously by `NSScreen.maximumExtendedDynamicRangeColorComponentValue`; the slider's upper request is based on `maximumPotentialExtendedDynamicRangeColorComponentValue`.
+Screen to 11 is a menu bar app that requests EDR headroom on the built-in display and applies a click-through multiply overlay to brighten ordinary content. It uses public AppKit and Metal APIs. `NSScreen.maximumPotentialExtendedDynamicRangeColorComponentValue` determines whether boost is supported; the slider scales gain within `maximumExtendedDynamicRangeColorComponentValue` as the current headroom changes.
+
+Licensed under the [MIT License](LICENSE), which permits use, modification, and redistribution subject to preserving the license notice. The software is provided without warranty or liability as stated in the license.
 
 ## Build and run
 
