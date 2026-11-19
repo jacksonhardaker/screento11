@@ -18,7 +18,7 @@ struct ScreenTo11App: App {
     @ObservedObject private var display = DisplayController.shared
 
     var body: some Scene {
-        MenuBarExtra("Screen to 11", systemImage: "sun.max.fill") {
+        MenuBarExtra("Screen to 11", systemImage: display.isEnabled ? "sun.max.fill" : "sun.max") {
             VStack(alignment: .leading, spacing: 12) {
                 Text("Screen to 11").font(.headline)
 
